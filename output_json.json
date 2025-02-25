@@ -1,0 +1,147 @@
+{
+  "status": "success",
+  "data": {
+    "basic_details": [
+      {
+        "0": "Name",
+        "1": "FirstName",
+        "2": "MiddleName",
+        "3": "LastName",
+        "4": "Nationality",
+        "5": "Gender",
+        "6": "Doa",
+        "7": "Dob",
+        "8": "Address1",
+        "9": "Address2",
+        "10": "Address3",
+        "11": "Address4",
+        "12": "City",
+        "13": "State",
+        "14": "Country",
+        "15": "ZipCode",
+        "16": "EmailId",
+        "17": "MobileNo",
+        "18": "AlternateNo",
+        "19": "Rank"
+      },
+      {
+        "0": "ARIP HIDAY",
+        "1": "ARIP",
+        "2": null,
+        "3": "HIDAY",
+        "4": null,
+        "5": null,
+        "6": null,
+        "7": "24-01-1989",
+        "8": "BABELAN INDAH JLN",
+        "9": null,
+        "10": null,
+        "11": null,
+        "12": null,
+        "13": null,
+        "14": null,
+        "15": null,
+        "16": "masked@gmail.co",
+        "17": "+62822-4601-5097",
+        "18": null,
+        "19": null
+      }
+    ],
+    "experience_table": [
+      {
+        "0": "VesselName",
+        "1": "VesselType",
+        "2": "Position",
+        "3": "VesselSubType",
+        "4": "Employer",
+        "5": "Flag",
+        "6": "IMO",
+        "7": "FromDt",
+        "8": "ToDt",
+        "9": "others"
+      },
+      {
+        "0": "ANDALAS PATRA",
+        "1": "VESSEL OIL",
+        "2": "Deck Cadet",
+        "3": null,
+        "4": "TRANSKONTINENTAL PT. PERTAMINA",
+        "5": "FLAG TRANSKO",
+        "6": null,
+        "7": "27-09-2018",
+        "8": "07-10-2019",
+        "9": null
+      },
+      {
+        "0": "FIGAR",
+        "1": "BUNKER",
+        "2": null,
+        "3": null,
+        "4": "PT. FIGAR JAYA",
+        "5": null,
+        "6": null,
+        "7": "09-04-2021",
+        "8": "08-03-2022",
+        "9": null
+      }
+    ],
+    "certificate_table": [
+      {
+        "0": "CertificateNo",
+        "1": "CertificateName",
+        "2": "PlaceOfIssue",
+        "3": "IssuedBy",
+        "4": "DateOfIssue",
+        "5": "DateOfExpiry",
+        "6": "Grade",
+        "7": "Others",
+        "8": "CountryOfIssue"
+      },
+      {
+        "0": "6211711386060117",
+        "1": "Advanced Fire Fighting A-VI/3",
+        "2": "JAKARTA",
+        "3": null,
+        "4": "23-02-2021",
+        "5": null,
+        "6": null,
+        "7": null,
+        "8": null
+      },
+      {
+        "0": "6211711386080120",
+        "1": "Medical Care A-VI/4-2",
+        "2": "JAKARTA",
+        "3": null,
+        "4": "08-10-2020",
+        "5": null,
+        "6": null,
+        "7": null,
+        "8": null
+      },
+      {
+        "0": "85425/SOU/XI/2020",
+        "1": "PROFIENCY ORU",
+        "2": "JAKARTA",
+        "3": null,
+        "4": "24-11-2020",
+        "5": null,
+        "6": null,
+        "7": null,
+        "8": null
+      },
+      {
+        "0": "F08163",
+        "1": "Seaman Book",
+        "2": "JAKARTA",
+        "3": null,
+        "4": "28-09-2020",
+        "5": "23-10-2024",
+        "6": null,
+        "7": null,
+        "8": "Indonesia"
+      }
+    ]
+  },
+  "utc_time_stamp": "14/05/2024, 12:05:10"
+}
