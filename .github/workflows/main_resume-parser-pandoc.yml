@@ -68,4 +68,4 @@ jobs:
         with:
           app-name: 'Resume-parser-pandoc'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_13DA0355F2834454A08DB787C7E960CA }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_574E6CFAE2BA4ADABD8021A03FF3A730 }}
