@@ -68,12 +68,12 @@ async def cv_json(file_path):
             return None
 
     def convert_doc_to_docx(file_path):
-        """Convert .doc to .docx using unoconv."""
+        """Convert .doc to .docx using LibreOffice CLI (`soffice`)."""
         try:
             docx_file_path = file_path.replace(".doc", ".docx")
-            unoconv_command = f"unoconv -f docx '{file_path}'"
-            subprocess.run(unoconv_command, shell=True, check=True)
-
+            command = f"soffice --headless --convert-to docx '{file_path}' --outdir '{os.path.dirname(file_path)}'"
+            subprocess.run(command, shell=True, check=True)
+    
             if not os.path.exists(docx_file_path):
                 raise FileNotFoundError("DOC to DOCX conversion failed.")
             
@@ -81,6 +81,7 @@ async def cv_json(file_path):
             return docx_file_path
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"DOC to DOCX conversion failed: {str(e)}")
+
 
     def convert_docx_to_pdf(file_path):
         """Convert .docx to .pdf using Pandoc."""
