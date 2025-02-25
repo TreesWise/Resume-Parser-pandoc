@@ -1,7 +1,7 @@
 import os
 import json
 import asyncio
-import subprocess  # Used for calling pandoc and unoconv
+import subprocess  # Used for calling pandoc and soffice
 import tempfile
 from fastapi import HTTPException
 import google.generativeai as genai
@@ -10,7 +10,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 async def cv_json(file_path):
-
     with open("output_json.json", "r", encoding="utf-8") as file:
         json_template_str = json.load(file)
     
@@ -49,9 +48,11 @@ async def cv_json(file_path):
     """  
 
     async def send_gemini_flash_request(file_path, prompt):
-        print("Sending Gemini 2.0 Flash API request")
+        """Send the extracted PDF to Gemini model for processing."""
+        print(f"Sending {file_path} to Gemini Model...")
         genai.configure(api_key=os.getenv("api_key"))
         model = genai.GenerativeModel("gemini-1.5-flash")
+
         with open(file_path, "rb") as file:
             document = genai.upload_file(file, display_name="Resume PDF", mime_type="application/pdf")
         try:
@@ -60,32 +61,38 @@ async def cv_json(file_path):
 
             try:
                 extracted_json = json.loads(cleaned_string)
+                print(" Successfully extracted JSON")
                 return json.dumps(extracted_json, indent=4)
             except json.JSONDecodeError as e:
-                print("Error parsing JSON:", e)
+                print(" Error parsing JSON:", e)
+                return None
         except Exception as e:
-            print(f"API Request Error: {e}")
+            print(f" API Request Error: {e}")
             return None
 
     def convert_doc_to_docx(file_path):
         """Convert .doc to .docx using LibreOffice CLI (`soffice`)."""
         try:
-            docx_file_path = file_path.replace(".doc", ".docx")
-            command = f"soffice --headless --convert-to docx '{file_path}' --outdir '{os.path.dirname(file_path)}'"
+            print(f"Converting DOC to DOCX: {file_path}")
+            output_dir = os.path.dirname(file_path)
+            command = f"soffice --headless --convert-to docx '{file_path}' --outdir '{output_dir}'"
             subprocess.run(command, shell=True, check=True)
-    
+
+            docx_file_path = file_path.replace(".doc", ".docx")
+            docx_file_path = os.path.join(output_dir, os.path.basename(docx_file_path))
+
             if not os.path.exists(docx_file_path):
-                raise FileNotFoundError("DOC to DOCX conversion failed.")
-            
+                raise FileNotFoundError(" DOC to DOCX conversion failed. File not found.")
+
             print(f"DOC successfully converted to DOCX: {docx_file_path}")
             return docx_file_path
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"DOC to DOCX conversion failed: {str(e)}")
 
-
     def convert_docx_to_pdf(file_path):
         """Convert .docx to .pdf using Pandoc."""
         try:
+            print(f"Converting DOCX to PDF: {file_path}")
             temp_dir = tempfile.mkdtemp()  
             pdf_file_path = os.path.join(temp_dir, "converted.pdf")
 
@@ -93,7 +100,7 @@ async def cv_json(file_path):
             subprocess.run(command, shell=True, check=True)
 
             if not os.path.exists(pdf_file_path):
-                raise FileNotFoundError(f"PDF conversion failed: {pdf_file_path}")
+                raise FileNotFoundError(f" PDF conversion failed: {pdf_file_path}")
 
             print(f"DOCX successfully converted to PDF: {pdf_file_path}")
             return pdf_file_path  
@@ -101,13 +108,13 @@ async def cv_json(file_path):
             raise HTTPException(status_code=500, detail=f"DOCX to PDF conversion failed: {str(e)}")
 
     async def process_file(file_path, prompt):
-        print("Processing file:", file_path)
+        print(f"Processing file: {file_path}")
 
         # If the file is already a PDF, send it directly to Gemini
         if file_path.endswith(".pdf"):
             print("File is already a PDF. Sending to Gemini.")
             return await send_gemini_flash_request(file_path, prompt)
-        
+
         # If the file is DOCX, convert it to PDF using Pandoc
         elif file_path.endswith(".docx"):
             print("File is DOCX. Converting to PDF using Pandoc.")
@@ -116,7 +123,7 @@ async def cv_json(file_path):
 
         # If the file is DOC, first convert to DOCX, then to PDF
         elif file_path.endswith(".doc"):
-            print("File is DOC. Converting to DOCX using unoconv.")
+            print("File is DOC. Converting to DOCX using LibreOffice CLI.")
             docx_file_path = convert_doc_to_docx(file_path)
             print("Converting DOCX to PDF using Pandoc.")
             pdf_file_path = convert_docx_to_pdf(docx_file_path)
